@@ -1,3 +1,5 @@
+
+
 #!/usr/bin/python
 """ holds class City"""
 import models
@@ -18,6 +20,17 @@ class City(BaseModel, Base):
     else:
         state_id = ""
         name = ""
+
+        @property
+        def places(self):
+            """getter attribute returns the list of Place instances"""
+            from models.place import Place
+            place_list = []
+            all_places = models.storage.all(Place)
+            for place in all_places.values():
+                if place.city_id == self.id:
+                    place_list.append(place)
+            return place_list
 
     def __init__(self, *args, **kwargs):
         """initializes city"""
